@@ -53,6 +53,9 @@ dependencies {
     // Splash Screen
     implementation(libs.androidx.core.splashscreen)
 
+    // AndroidX Security Crypto library
+    implementation(libs.androidx.security.crypto)
+
     // Google Fonts
     implementation(libs.androidx.compose.ui.text.google.fonts)
 
