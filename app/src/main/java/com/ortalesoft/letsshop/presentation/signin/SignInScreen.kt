@@ -37,6 +37,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ortalesoft.letsshop.R
+import com.ortalesoft.letsshop.presentation.NavScreens
 import com.ortalesoft.letsshop.presentation.signup.components.SignInForm
 
 @Composable
@@ -162,10 +163,7 @@ fun SignInContent(
                     .fillMaxWidth()
                     .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
-                border = BorderStroke(1.dp, Color(0xFFE0E0E0)),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color.White
-                )
+                border = BorderStroke(1.dp, Color(0xFFE0E0E0))
             ) {
 
                 Icon(
@@ -198,7 +196,11 @@ fun SignInContent(
                 )
 
                 TextButton(
-                    onClick = { /* Navigate to register */ },
+                    onClick = {
+                        navController.navigate(NavScreens.SignUpScreen.route) {
+                            popUpTo(NavScreens.SignInScreen.route) { inclusive = true }
+                        }
+                    },
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(

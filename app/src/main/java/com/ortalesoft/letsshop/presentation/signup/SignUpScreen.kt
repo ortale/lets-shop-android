@@ -36,6 +36,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ortalesoft.letsshop.R
+import com.ortalesoft.letsshop.presentation.signin.SignInContent
 import com.ortalesoft.letsshop.presentation.signup.components.SignUpForm
 
 @Composable
@@ -44,7 +45,16 @@ fun SignUpScreen(
     navController: NavController,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
+    val signUpScreenState = viewModel.signUpScreenState.value
 
+    SignUpContent(
+        modifier = modifier,
+        navController = navController,
+        signUpScreenState = signUpScreenState,
+        signUp = { name, email, password ->
+            viewModel.signUp(name, email, password)
+        }
+    )
 }
 
 @Composable
@@ -52,7 +62,7 @@ fun SignUpContent(
     modifier: Modifier = Modifier,
     navController: NavController,
     signUpScreenState: SignUpScreenState,
-    signUp: (String, String) -> Unit
+    signUp: (String, String, String) -> Unit
 ) {
     Box(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -100,6 +110,7 @@ fun SignUpContent(
                     .height(50.dp),
                 onClick = {
                     signUp(
+                        signUpScreenState.user?.name ?: "",
                         signUpScreenState.user?.email ?: "",
                         signUpScreenState.user?.password ?: ""
                     )
@@ -111,7 +122,7 @@ fun SignUpContent(
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Text(
-                    "Sign in",
+                    "Create account",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -152,10 +163,7 @@ fun SignUpContent(
                     .fillMaxWidth()
                     .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
-                border = BorderStroke(1.dp, Color(0xFFE0E0E0)),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color.White
-                )
+                border = BorderStroke(1.dp, Color(0xFFE0E0E0))
             ) {
 
                 Icon(
@@ -206,7 +214,9 @@ fun SignUpContent(
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen(
-        navController = rememberNavController()
+    SignUpContent(
+        navController = rememberNavController(),
+        signUpScreenState = SignUpScreenState(),
+        signUp = { _, _, _ -> }
     )
 }

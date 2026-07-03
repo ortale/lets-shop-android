@@ -29,6 +29,29 @@ fun SignUpForm(
         verticalArrangement = Arrangement.Top
     ) {
         Text(
+            text = "Name",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        OutlinedTextField(
+            value = signUpScreenState.user?.name ?: "",
+            onValueChange = { signUpScreenState.user?.name = it },
+            placeholder = { Text("Your name") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            visualTransformation = VisualTransformation.None,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            )
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
             text = "Email",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
