@@ -3,11 +3,9 @@ package com.ortalesoft.letsshop.di
 import com.ortalesoft.letsshop.data.common.Constants
 import com.ortalesoft.letsshop.data.remote.LetsShopApi
 import com.ortalesoft.letsshop.data.repository.ShoppingListRepositoryImpl
-import com.ortalesoft.letsshop.data.repository.SignInRepositoryImpl
-import com.ortalesoft.letsshop.data.repository.SignUpRepositoryImpl
+import com.ortalesoft.letsshop.data.repository.AuthRepositoryImpl
 import com.ortalesoft.letsshop.domain.repository.ShoppingListRepository
-import com.ortalesoft.letsshop.domain.repository.SignInRepository
-import com.ortalesoft.letsshop.domain.repository.SignUpRepository
+import com.ortalesoft.letsshop.domain.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,13 +35,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSignInRepository(api: LetsShopApi): SignInRepository {
-        return SignInRepositoryImpl(api)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSignUpRepository(api: LetsShopApi): SignUpRepository {
-        return SignUpRepositoryImpl(api)
+    fun authRepository(api: LetsShopApi): AuthRepository {
+        return AuthRepositoryImpl(api)
     }
 }

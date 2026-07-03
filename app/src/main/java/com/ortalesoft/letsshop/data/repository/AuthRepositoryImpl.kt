@@ -2,13 +2,23 @@ package com.ortalesoft.letsshop.data.repository
 
 import com.ortalesoft.letsshop.data.remote.LetsShopApi
 import com.ortalesoft.letsshop.domain.model.User
+import com.ortalesoft.letsshop.domain.model.responses.SignInResponse
 import com.ortalesoft.letsshop.domain.model.responses.SignUpResponse
-import com.ortalesoft.letsshop.domain.repository.SignUpRepository
+import com.ortalesoft.letsshop.domain.repository.AuthRepository
 import javax.inject.Inject
 
-class SignUpRepositoryImpl @Inject constructor(
+class AuthRepositoryImpl @Inject constructor(
     private val letsShopApi: LetsShopApi
-) : SignUpRepository {
+): AuthRepository {
+    override suspend fun signIn(email: String, password: String): SignInResponse {
+        return letsShopApi.signIn(
+            User(
+                email = email,
+                password = password
+            )
+        )
+    }
+
     override suspend fun signUp(
         name: String,
         email: String,
