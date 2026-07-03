@@ -2,24 +2,31 @@ package com.ortalesoft.letsshop.data.remote
 
 import com.ortalesoft.letsshop.domain.model.ShoppingList
 import com.ortalesoft.letsshop.domain.model.User
+import com.ortalesoft.letsshop.domain.model.responses.MeResponse
 import com.ortalesoft.letsshop.domain.model.responses.SignInResponse
 import com.ortalesoft.letsshop.domain.model.responses.SignUpResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface LetsShopApi {
-    @GET("/v1/households/:householdId/lists")
+    @GET("/api/v1/households/:householdId/lists")
     suspend fun getShoppingLists(): List<ShoppingList>
 
-    @POST("/v1/households/:householdId/lists")
+    @POST("/api/v1/households/:householdId/lists")
     suspend fun createShoppingList(@Body shoppingList: ShoppingList): List<ShoppingList>
 
-    @POST("/v1/auth/register")
+    @POST("/api/v1/auth/register")
     suspend fun signUp(@Body user: User): SignUpResponse
 
-    @POST("/v1/auth/login")
+    @POST("/api/v1/auth/login")
     suspend fun signIn(@Body user: User): SignInResponse
+
+    @GET("/api/v1/auth/me")
+    suspend fun me(
+        @Header("Authorization") token: String
+    ): MeResponse
 }
 
 /*

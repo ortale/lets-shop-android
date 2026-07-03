@@ -1,4 +1,4 @@
-package com.ortalesoft.letsshop.presentation.signup
+package com.ortalesoft.letsshop.presentation.screens.signup
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

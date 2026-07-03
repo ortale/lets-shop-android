@@ -2,6 +2,7 @@ package com.ortalesoft.letsshop.data.repository
 
 import com.ortalesoft.letsshop.data.remote.LetsShopApi
 import com.ortalesoft.letsshop.domain.model.User
+import com.ortalesoft.letsshop.domain.model.responses.MeResponse
 import com.ortalesoft.letsshop.domain.model.responses.SignInResponse
 import com.ortalesoft.letsshop.domain.model.responses.SignUpResponse
 import com.ortalesoft.letsshop.domain.repository.AuthRepository
@@ -26,10 +27,18 @@ class AuthRepositoryImpl @Inject constructor(
     ): SignUpResponse {
         return letsShopApi.signUp(
             User(
-                name = email,
+                name = name,
                 email = email,
                 password = password
             )
+        )
+    }
+
+    override suspend fun me(): MeResponse {
+        val token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNGNjMjA3Ny1jOTYxLTQxNzItOWQ4MS0zZDNkOTUzMmM5NmYiLCJlbWFpbCI6ImZpcnN0QGVtYWlsLmNvbSIsImlhdCI6MTc4MzEwMDEyNCwiZXhwIjoxNzgzNzA0OTI0fQ.eV7tvbgmUcYLPfe7QAvl4AGJdvVUKOZdrZpA8iNvPqY"
+
+        return letsShopApi.me(
+            token
         )
     }
 }

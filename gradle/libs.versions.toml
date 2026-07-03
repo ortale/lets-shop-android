@@ -22,8 +22,10 @@ logginInterceptor = "5.4.0"
 uiTextGoogleFonts = "1.11.4"
 
 securityCrypto = "1.1.0"
+runtime = "1.11.4"
 
 [libraries]
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
@@ -58,6 +60,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitConverterGson" }
 squareup-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "squareUpOkHttp" }
 loggin-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logginInterceptor" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,4 +1,4 @@
-package com.ortalesoft.letsshop.presentation.signup
+package com.ortalesoft.letsshop.presentation.screens.signin
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -30,39 +30,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.AndroidUiModes
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ortalesoft.letsshop.R
-import com.ortalesoft.letsshop.presentation.signin.SignInContent
-import com.ortalesoft.letsshop.presentation.signup.components.SignUpForm
+import com.ortalesoft.letsshop.presentation.navigation.on_boarding.OnBoardingScreens
+import com.ortalesoft.letsshop.presentation.signup.components.SignInForm
 
 @Composable
-fun SignUpScreen(
+fun SignInScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
-    val signUpScreenState = viewModel.signUpScreenState.value
+    val signInScreenState = viewModel.signInScreenState.value
 
-    SignUpContent(
+    SignInContent(
         modifier = modifier,
         navController = navController,
-        signUpScreenState = signUpScreenState,
-        signUp = { name, email, password ->
-            viewModel.signUp(name, email, password)
+        signInScreenState = signInScreenState,
+        signIn = { email, password ->
+            viewModel.signIn(email, password)
         }
     )
 }
 
 @Composable
-fun SignUpContent(
+fun SignInContent(
     modifier: Modifier = Modifier,
     navController: NavController,
-    signUpScreenState: SignUpScreenState,
-    signUp: (String, String, String) -> Unit
+    signInScreenState: SignInScreenState,
+    signIn: (String, String) -> Unit
 ) {
     Box(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -98,8 +99,8 @@ fun SignUpContent(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            SignUpForm(
-                signUpScreenState = signUpScreenState
+            SignInForm(
+                signInScreenState = signInScreenState
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -109,10 +110,9 @@ fun SignUpContent(
                     .fillMaxWidth()
                     .height(50.dp),
                 onClick = {
-                    signUp(
-                        signUpScreenState.user?.name ?: "",
-                        signUpScreenState.user?.email ?: "",
-                        signUpScreenState.user?.password ?: ""
+                    signIn(
+                        signInScreenState.user?.email ?: "",
+                        signInScreenState.user?.password ?: ""
                     )
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -122,7 +122,7 @@ fun SignUpContent(
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Text(
-                    "Create account",
+                    "Sign in",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -196,7 +196,11 @@ fun SignUpContent(
                 )
 
                 TextButton(
-                    onClick = { /* Navigate to register */ },
+                    onClick = {
+                        navController.navigate(OnBoardingScreens.SignUpScreen.route) {
+                            popUpTo(OnBoardingScreens.SignInScreen.route) { inclusive = true }
+                        }
+                    },
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(
@@ -211,12 +215,12 @@ fun SignUpContent(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
-fun SignUpScreenPreview() {
-    SignUpContent(
+fun SignInScreenPreview() {
+    SignInContent(
         navController = rememberNavController(),
-        signUpScreenState = SignUpScreenState(),
-        signUp = { _, _, _ -> }
+        signInScreenState = SignInScreenState(),
+        signIn = { _, _ -> }
     )
 }

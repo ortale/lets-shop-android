@@ -1,4 +1,4 @@
-package com.ortalesoft.letsshop.presentation.signup.components
+package com.ortalesoft.letsshop.presentation.screens.signup.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,17 +17,40 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ortalesoft.letsshop.presentation.signin.SignInScreenState
+import com.ortalesoft.letsshop.presentation.screens.signup.SignUpScreenState
 
 @Composable
-fun SignInForm(
-    signInScreenState: SignInScreenState
+fun SignUpForm(
+    signUpScreenState: SignUpScreenState
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
+        Text(
+            text = "Name",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        OutlinedTextField(
+            value = signUpScreenState.user?.name ?: "",
+            onValueChange = { signUpScreenState.user?.name = it },
+            placeholder = { Text("Your name") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            visualTransformation = VisualTransformation.None,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            )
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         Text(
             text = "Email",
             style = MaterialTheme.typography.bodyMedium,
@@ -37,8 +60,8 @@ fun SignInForm(
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = signInScreenState.user?.email ?: "",
-            onValueChange = { signInScreenState.user?.email = it },
+            value = signUpScreenState.user?.email ?: "",
+            onValueChange = { signUpScreenState.user?.email = it },
             placeholder = { Text("you@email.com") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -60,8 +83,8 @@ fun SignInForm(
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = signInScreenState.user?.password ?: "",
-            onValueChange = { signInScreenState.user?.password = it },
+            value = signUpScreenState.user?.password ?: "",
+            onValueChange = { signUpScreenState.user?.password = it },
             placeholder = { Text("••••••••") },
             visualTransformation = VisualTransformation.None,
             keyboardOptions = KeyboardOptions(
@@ -75,8 +98,8 @@ fun SignInForm(
 
 @Preview(showBackground = true)
 @Composable
-fun SignInFormPreview() {
-    SignInForm(
-        signInScreenState = SignInScreenState()
+fun SignUpFormPreview() {
+    SignUpForm(
+        signUpScreenState = SignUpScreenState()
     )
 }

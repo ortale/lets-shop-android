@@ -1,4 +1,4 @@
-package com.ortalesoft.letsshop.presentation.signin
+package com.ortalesoft.letsshop.presentation.screens.signin
 
 import com.ortalesoft.letsshop.domain.model.User
 
