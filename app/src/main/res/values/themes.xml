@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.LetsShop" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.LetsShop.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FF6B6B</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_lets_shop_android_animated</item>
+        <item name="postSplashScreenTheme">@style/Theme.LetsShop</item>
+    </style>
+
+</resources>

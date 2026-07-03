@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:propertyName="scaleX"
+        android:valueFrom="1"
+        android:valueTo="1.08"
+        android:duration="180"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"/>
+
+    <objectAnimator
+        android:propertyName="scaleY"
+        android:valueFrom="1"
+        android:valueTo="0.92"
+        android:duration="180"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"/>
+
+    <objectAnimator
+        android:propertyName="translateY"
+        android:valueFrom="0"
+        android:valueTo="-18"
+        android:duration="250"
+        android:repeatMode="reverse"
+        android:repeatCount="infinite"/>
+
+</set>
