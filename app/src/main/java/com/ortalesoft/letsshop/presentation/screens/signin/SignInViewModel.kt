@@ -19,17 +19,36 @@ class SignInViewModel @Inject constructor(
     private val _signInScreenState = mutableStateOf(SignInScreenState())
     val signInScreenState = _signInScreenState
 
+    fun onEmailChanged(email: String) {
+        _signInScreenState.value =
+            _signInScreenState.value.copy(email = email)
+    }
+
+    fun onPasswordChanged(password: String) {
+        _signInScreenState.value =
+            _signInScreenState.value.copy(password = password)
+    }
+
     fun signIn(email: String, password: String) {
         signInUseCase(email, password).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _signInScreenState.value = SignInScreenState(user = result.data?.user)
+                    _signInScreenState.value =
+                        _signInScreenState.value.copy(
+                            isLoading = false,
+                            user = result.data?.user,
+                            error = null
+                        )
                 }
                 is Resource.Error -> {
-                    _signInScreenState.value = SignInScreenState(error = result.message ?: "An unexpected error occurred")
+                    _signInScreenState.value =
+                        _signInScreenState.value.copy(
+                            isLoading = false,
+                            error = result.message ?: "An unexpected error occurred"
+                        )
                 }
                 is Resource.Loading -> {
-                    _signInScreenState.value = SignInScreenState(isLoading = true)
+                    _signInScreenState.value = _signInScreenState.value.copy(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)

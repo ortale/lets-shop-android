@@ -1,4 +1,4 @@
-package com.ortalesoft.letsshop.presentation.signup.components
+package com.ortalesoft.letsshop.presentation.signin.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,7 +22,9 @@ import com.ortalesoft.letsshop.presentation.screens.signin.SignInScreenState
 
 @Composable
 fun SignInForm(
-    signInScreenState: SignInScreenState
+    signInScreenState: SignInScreenState,
+    onEmailChanged: (String) -> Unit = {},
+    onPasswordChanged: (String) -> Unit = {}
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -37,8 +40,8 @@ fun SignInForm(
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = signInScreenState.user?.email ?: "",
-            onValueChange = { signInScreenState.user?.email = it },
+            value = signInScreenState.email,
+            onValueChange = onEmailChanged,
             placeholder = { Text("you@email.com") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -60,10 +63,10 @@ fun SignInForm(
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = signInScreenState.user?.password ?: "",
-            onValueChange = { signInScreenState.user?.password = it },
+            value = signInScreenState.password,
+            onValueChange = onPasswordChanged,
             placeholder = { Text("••••••••") },
-            visualTransformation = VisualTransformation.None,
+            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done

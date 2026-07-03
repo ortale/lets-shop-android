@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +39,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ortalesoft.letsshop.R
 import com.ortalesoft.letsshop.presentation.navigation.on_boarding.OnBoardingScreens
-import com.ortalesoft.letsshop.presentation.signup.components.SignInForm
+import com.ortalesoft.letsshop.presentation.signin.components.SignInForm
 
 @Composable
 fun SignInScreen(
@@ -54,7 +55,9 @@ fun SignInScreen(
         signInScreenState = signInScreenState,
         signIn = { email, password ->
             viewModel.signIn(email, password)
-        }
+        },
+        onEmailChanged = { viewModel.onEmailChanged(it) },
+        onPasswordChanged = { viewModel.onPasswordChanged(it) }
     )
 }
 
@@ -63,8 +66,18 @@ fun SignInContent(
     modifier: Modifier = Modifier,
     navController: NavController,
     signInScreenState: SignInScreenState,
-    signIn: (String, String) -> Unit
+    signIn: (String, String) -> Unit,
+    onEmailChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit
 ) {
+    LaunchedEffect(signInScreenState) {
+        if (signInScreenState.user != null) {
+            navController.navigate(OnBoardingScreens.DashboardScreen.route) {
+                popUpTo(OnBoardingScreens.SignInScreen.route) { inclusive = true }
+            }
+        }
+    }
+
     Box(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
     ) {
@@ -100,7 +113,9 @@ fun SignInContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             SignInForm(
-                signInScreenState = signInScreenState
+                signInScreenState = signInScreenState,
+                onEmailChanged = onEmailChanged,
+                onPasswordChanged = onPasswordChanged
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -111,8 +126,8 @@ fun SignInContent(
                     .height(50.dp),
                 onClick = {
                     signIn(
-                        signInScreenState.user?.email ?: "",
-                        signInScreenState.user?.password ?: ""
+                        signInScreenState.email,
+                        signInScreenState.password
                     )
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -221,6 +236,8 @@ fun SignInScreenPreview() {
     SignInContent(
         navController = rememberNavController(),
         signInScreenState = SignInScreenState(),
-        signIn = { _, _ -> }
+        signIn = { _, _ -> },
+        onEmailChanged = {},
+        onPasswordChanged = {}
     )
 }

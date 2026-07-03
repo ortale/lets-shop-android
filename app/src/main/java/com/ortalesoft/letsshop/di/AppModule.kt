@@ -1,5 +1,6 @@
 package com.ortalesoft.letsshop.di
 
+import android.util.Log
 import com.ortalesoft.letsshop.data.common.Constants
 import com.ortalesoft.letsshop.data.local_storage.UserSessionStorage
 import com.ortalesoft.letsshop.data.remote.LetsShopApi
@@ -33,6 +34,7 @@ object AppModule {
 
         val authInterceptor = Interceptor { chain ->
             val token = runBlocking { userSessionStorage.getBearerToken() }
+            Log.v("AppModule", "Token: $token")
             val request = token?.let {
                 chain.request().newBuilder()
                     .addHeader("Authorization", it)
