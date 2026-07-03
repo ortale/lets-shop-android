@@ -23,10 +23,8 @@ interface LetsShopApi {
     @POST("/api/v1/auth/login")
     suspend fun signIn(@Body user: User): SignInResponse
 
-    @GET("/api/v1/auth/me")
-    suspend fun me(
-        @Header("Authorization") token: String
-    ): MeResponse
+    @GET("auth/me")
+    suspend fun me(): MeResponse
 }
 
 /*

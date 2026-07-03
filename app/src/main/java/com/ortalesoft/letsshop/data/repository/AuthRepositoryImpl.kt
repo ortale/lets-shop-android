@@ -1,5 +1,6 @@
 package com.ortalesoft.letsshop.data.repository
 
+import com.ortalesoft.letsshop.data.local_storage.UserSessionStorage
 import com.ortalesoft.letsshop.data.remote.LetsShopApi
 import com.ortalesoft.letsshop.domain.model.User
 import com.ortalesoft.letsshop.domain.model.responses.MeResponse
@@ -9,36 +10,36 @@ import com.ortalesoft.letsshop.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val letsShopApi: LetsShopApi
-): AuthRepository {
+    private val letsShopApi: LetsShopApi,
+    private val session: UserSessionStorage
+) : AuthRepository {
     override suspend fun signIn(email: String, password: String): SignInResponse {
-        return letsShopApi.signIn(
-            User(
-                email = email,
-                password = password
-            )
+        val response = letsShopApi.signIn(User(email = email, password = password))
+        session.saveToken(response.token)
+        session.saveUser(
+            id = response.user.id ?: "",
+            name = response.user.name ?: "",
+            email = response.user.email ?: ""
         )
+        return response
     }
 
-    override suspend fun signUp(
-        name: String,
-        email: String,
-        password: String
-    ): SignUpResponse {
-        return letsShopApi.signUp(
-            User(
-                name = name,
-                email = email,
-                password = password
-            )
+    override suspend fun signUp(name: String, email: String, password: String): SignUpResponse {
+        val response = letsShopApi.signUp(User(name = name, email = email, password = password))
+        session.saveToken(response.token)
+        session.saveUser(
+            id = response.user.id ?: "",
+            name = response.user.name ?: "",
+            email = response.user.email ?: ""
         )
+        return response
     }
 
     override suspend fun me(): MeResponse {
-        val token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNGNjMjA3Ny1jOTYxLTQxNzItOWQ4MS0zZDNkOTUzMmM5NmYiLCJlbWFpbCI6ImZpcnN0QGVtYWlsLmNvbSIsImlhdCI6MTc4MzEwMDEyNCwiZXhwIjoxNzgzNzA0OTI0fQ.eV7tvbgmUcYLPfe7QAvl4AGJdvVUKOZdrZpA8iNvPqY"
+        return letsShopApi.me()
+    }
 
-        return letsShopApi.me(
-            token
-        )
+    override suspend fun signOut() {
+        session.clear()
     }
 }

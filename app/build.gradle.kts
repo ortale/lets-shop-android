@@ -24,6 +24,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"http://192.168.1.105:3000/\""
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -38,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -55,8 +63,9 @@ dependencies {
     // Splash Screen
     implementation(libs.androidx.core.splashscreen)
 
-    // AndroidX Security Crypto library
-    implementation(libs.androidx.security.crypto)
+    // AndroidX Data Store library
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.tink.android)
 
     // Google Fonts
     implementation(libs.androidx.compose.ui.text.google.fonts)
