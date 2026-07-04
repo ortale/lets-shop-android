@@ -39,6 +39,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ortalesoft.letsshop.R
 import com.ortalesoft.letsshop.presentation.navigation.on_boarding.OnBoardingScreens
+import com.ortalesoft.letsshop.presentation.screens.components_common.LoadingOverlay
 import com.ortalesoft.letsshop.presentation.signin.components.SignInForm
 
 @Composable
@@ -49,7 +50,7 @@ fun SignInScreen(
 ) {
     val signInScreenState = viewModel.signInScreenState.value
 
-    SignInContent(
+    SignInScreenContent(
         modifier = modifier,
         navController = navController,
         signInScreenState = signInScreenState,
@@ -62,7 +63,7 @@ fun SignInScreen(
 }
 
 @Composable
-fun SignInContent(
+private fun SignInScreenContent(
     modifier: Modifier = Modifier,
     navController: NavController,
     signInScreenState: SignInScreenState,
@@ -79,7 +80,9 @@ fun SignInContent(
     }
 
     Box(
-        modifier = modifier.background(MaterialTheme.colorScheme.background)
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -227,13 +230,17 @@ fun SignInContent(
                 }
             }
         }
+
+        LoadingOverlay(
+            isLoading = signInScreenState.isLoading
+        )
     }
 }
 
 @Preview(showBackground = true, uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
-fun SignInScreenPreview() {
-    SignInContent(
+fun SignInScreenScreenPreview() {
+    SignInScreenContent(
         navController = rememberNavController(),
         signInScreenState = SignInScreenState(),
         signIn = { _, _ -> },

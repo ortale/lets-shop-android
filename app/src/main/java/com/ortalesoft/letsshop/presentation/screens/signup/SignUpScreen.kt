@@ -46,7 +46,7 @@ fun SignUpScreen(
 ) {
     val signUpScreenState = viewModel.signUpScreenState.value
 
-    SignUpContent(
+    SignUpScreenContent(
         modifier = modifier,
         navController = navController,
         signUpScreenState = signUpScreenState,
@@ -57,7 +57,7 @@ fun SignUpScreen(
 }
 
 @Composable
-fun SignUpContent(
+fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     navController: NavController,
     signUpScreenState: SignUpScreenState,
@@ -212,8 +212,8 @@ fun SignUpContent(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreenPreview() {
-    SignUpContent(
+fun SignUpScreenScreenPreview() {
+    SignUpScreenContent(
         navController = rememberNavController(),
         signUpScreenState = SignUpScreenState(),
         signUp = { _, _, _ -> }

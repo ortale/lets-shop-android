@@ -30,6 +30,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun signIn(email: String, password: String) {
+        _signInScreenState.value = _signInScreenState.value.copy(isLoading = true)
         signInUseCase(email, password).onEach { result ->
             when (result) {
                 is Resource.Success -> {

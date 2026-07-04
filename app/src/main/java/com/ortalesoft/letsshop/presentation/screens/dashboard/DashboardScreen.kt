@@ -28,7 +28,7 @@ fun DashboardScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
-    DashboardContent(
+    DashboardScreenContent(
         modifier = modifier,
         navController = navController
     )
@@ -36,7 +36,7 @@ fun DashboardScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardContent(
+fun DashboardScreenContent(
     modifier: Modifier = Modifier,
     navController: NavHostController,
 ) {
@@ -106,8 +106,8 @@ fun DashboardContent(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-private fun DashboardScreenPreview() {
-    DashboardContent(
+private fun DashboardScreenScreenPreview() {
+    DashboardScreenContent(
         navController = rememberNavController()
     )
 }
