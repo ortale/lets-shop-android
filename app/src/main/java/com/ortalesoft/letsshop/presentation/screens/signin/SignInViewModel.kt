@@ -54,20 +54,4 @@ class SignInViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
-
-    fun me() {
-        meUseCase().onEach { result ->
-            when (result) {
-                is Resource.Success -> {
-                    _signInScreenState.value = SignInScreenState(user = result.data?.user)
-                }
-                is Resource.Error -> {
-                    _signInScreenState.value = SignInScreenState(error = result.message ?: "An unexpected error occurred")
-                    }
-                is Resource.Loading -> {
-                    _signInScreenState.value = SignInScreenState(isLoading = true)
-                }
-            }
-        }.launchIn(viewModelScope)
-    }
 }

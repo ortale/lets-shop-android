@@ -40,7 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ortalesoft.letsshop.R
 import com.ortalesoft.letsshop.presentation.navigation.on_boarding.OnBoardingScreens
 import com.ortalesoft.letsshop.presentation.screens.components_common.LoadingOverlay
-import com.ortalesoft.letsshop.presentation.signin.components.SignInForm
+import com.ortalesoft.letsshop.presentation.screens.signin.components.SignInForm
 
 @Composable
 fun SignInScreen(

@@ -1,4 +1,4 @@
-package com.ortalesoft.letsshop.presentation.signin.components
+package com.ortalesoft.letsshop.presentation.screens.signin.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

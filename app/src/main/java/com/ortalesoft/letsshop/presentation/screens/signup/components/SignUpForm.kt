@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,7 +22,10 @@ import com.ortalesoft.letsshop.presentation.screens.signup.SignUpScreenState
 
 @Composable
 fun SignUpForm(
-    signUpScreenState: SignUpScreenState
+    signUpScreenState: SignUpScreenState,
+    onNameChanged: (String) -> Unit = {},
+    onEmailChanged: (String) -> Unit = {},
+    onPasswordChanged: (String) -> Unit = {}
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -37,8 +41,8 @@ fun SignUpForm(
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = signUpScreenState.user?.name ?: "",
-            onValueChange = { signUpScreenState.user?.name = it },
+            value = signUpScreenState.name,
+            onValueChange = { onNameChanged(it) },
             placeholder = { Text("Your name") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -60,12 +64,12 @@ fun SignUpForm(
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = signUpScreenState.user?.email ?: "",
-            onValueChange = { signUpScreenState.user?.email = it },
+            value = signUpScreenState.email,
+            onValueChange = { onEmailChanged(it) },
             placeholder = { Text("you@email.com") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            visualTransformation = VisualTransformation.None,
+            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
@@ -83,8 +87,8 @@ fun SignUpForm(
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = signUpScreenState.user?.password ?: "",
-            onValueChange = { signUpScreenState.user?.password = it },
+            value = signUpScreenState.password,
+            onValueChange = { onPasswordChanged(it) },
             placeholder = { Text("••••••••") },
             visualTransformation = VisualTransformation.None,
             keyboardOptions = KeyboardOptions(

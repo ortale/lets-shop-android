@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +37,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ortalesoft.letsshop.R
+import com.ortalesoft.letsshop.presentation.navigation.on_boarding.OnBoardingScreens
+import com.ortalesoft.letsshop.presentation.screens.components_common.LoadingOverlay
 import com.ortalesoft.letsshop.presentation.screens.signup.components.SignUpForm
 
 @Composable
@@ -50,6 +53,9 @@ fun SignUpScreen(
         modifier = modifier,
         navController = navController,
         signUpScreenState = signUpScreenState,
+        onNameChanged = { viewModel.onNameChanged(it) },
+        onEmailChanged = { viewModel.onEmailChanged(it) },
+        onPasswordChanged = { viewModel.onPasswordChanged(it) },
         signUp = { name, email, password ->
             viewModel.signUp(name, email, password)
         }
@@ -61,8 +67,19 @@ fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     navController: NavController,
     signUpScreenState: SignUpScreenState,
+    onNameChanged: (String) -> Unit,
+    onEmailChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
     signUp: (String, String, String) -> Unit
 ) {
+    LaunchedEffect(signUpScreenState) {
+        if (signUpScreenState.user != null) {
+            navController.navigate(OnBoardingScreens.DashboardScreen.route) {
+                popUpTo(OnBoardingScreens.SignUpScreen.route) { inclusive = true }
+            }
+        }
+    }
+
     Box(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
     ) {
@@ -98,7 +115,10 @@ fun SignUpScreenContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             SignUpForm(
-                signUpScreenState = signUpScreenState
+                signUpScreenState = signUpScreenState,
+                onNameChanged = onNameChanged,
+                onEmailChanged = onEmailChanged,
+                onPasswordChanged = onPasswordChanged
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -109,9 +129,9 @@ fun SignUpScreenContent(
                     .height(50.dp),
                 onClick = {
                     signUp(
-                        signUpScreenState.user?.name ?: "",
-                        signUpScreenState.user?.email ?: "",
-                        signUpScreenState.user?.password ?: ""
+                        signUpScreenState.name,
+                        signUpScreenState.email,
+                        signUpScreenState.password
                     )
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -189,13 +209,17 @@ fun SignUpScreenContent(
             ) {
 
                 Text(
-                    text = "No account? ",
+                    text = "Already have an account? ",
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyMedium
                 )
 
                 TextButton(
-                    onClick = { /* Navigate to register */ },
+                    onClick = {
+                        navController.navigate(OnBoardingScreens.SignInScreen.route) {
+                            popUpTo(OnBoardingScreens.SignUpScreen.route) { inclusive = true }
+                        }
+                    },
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(
@@ -207,6 +231,10 @@ fun SignUpScreenContent(
                 }
             }
         }
+
+        LoadingOverlay(
+            isLoading = signUpScreenState.isLoading
+        )
     }
 }
 
@@ -216,6 +244,9 @@ fun SignUpScreenScreenPreview() {
     SignUpScreenContent(
         navController = rememberNavController(),
         signUpScreenState = SignUpScreenState(),
-        signUp = { _, _, _ -> }
+        signUp = { _, _, _ -> },
+        onNameChanged = {},
+        onEmailChanged = {},
+        onPasswordChanged = {}
     )
 }

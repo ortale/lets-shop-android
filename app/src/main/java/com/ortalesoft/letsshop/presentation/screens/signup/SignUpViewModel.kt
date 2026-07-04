@@ -13,19 +13,44 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _signUpScreenState = mutableStateOf(SignUpScreenState())
     val signUpScreenState = _signUpScreenState
 
+    fun onNameChanged(name: String) {
+        _signUpScreenState.value =
+            _signUpScreenState.value.copy(name = name)
+    }
+
+    fun onEmailChanged(email: String) {
+        _signUpScreenState.value =
+            _signUpScreenState.value.copy(email = email)
+    }
+
+    fun onPasswordChanged(password: String) {
+        _signUpScreenState.value =
+            _signUpScreenState.value.copy(password = password)
+    }
+
     fun signUp(name: String, email: String, password: String) {
+        _signUpScreenState.value = _signUpScreenState.value.copy(isLoading = true)
         signUpUseCase(name, email, password).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _signUpScreenState.value = SignUpScreenState(user = result.data?.user)
+                    _signUpScreenState.value = SignUpScreenState(
+                        isLoading = false,
+                        user = result.data?.user,
+                        error = null
+                    )
                 }
+
                 is Resource.Error -> {
-                    _signUpScreenState.value = SignUpScreenState(error = result.message ?: "An unexpected error occurred")
+                    _signUpScreenState.value = SignUpScreenState(
+                        isLoading = false,
+                        error = result.message ?: "An unexpected error occurred"
+                    )
                 }
+
                 is Resource.Loading -> {
                     _signUpScreenState.value = SignUpScreenState(isLoading = true)
                 }
