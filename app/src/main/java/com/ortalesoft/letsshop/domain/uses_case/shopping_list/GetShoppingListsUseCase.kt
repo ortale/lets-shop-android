@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetShoppingListUseCase @Inject constructor(
+class GetShoppingListsUseCase @Inject constructor(
     private val repository: ShoppingListRepository
 ) {
     operator fun invoke(): Flow<Resource<List<ShoppingList>>> = flow {

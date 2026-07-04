@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ortalesoft.letsshop.data.common.Resource
-import com.ortalesoft.letsshop.domain.uses_case.loading.MeUseCase
+import com.ortalesoft.letsshop.domain.uses_case.profile.MeUseCase
 import com.ortalesoft.letsshop.domain.uses_case.signin.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

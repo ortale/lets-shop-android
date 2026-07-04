@@ -1,4 +1,4 @@
-package com.ortalesoft.letsshop.presentation.screens.loading
+package com.ortalesoft.letsshop.presentation.screens.dashboard.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,28 +14,27 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class LoadingViewModel @Inject constructor(
+class ProfileViewModel @Inject constructor(
     private val meUseCase: MeUseCase
 ) : ViewModel() {
-
-    private val _meScreenState = MutableStateFlow<LoadingScreenState>(LoadingScreenState.Idle)
-    val meScreenState: StateFlow<LoadingScreenState> = _meScreenState.asStateFlow()
+    private val _profileScreenState = MutableStateFlow<ProfileScreenState>(ProfileScreenState.Idle)
+    val profileScreenState: StateFlow<ProfileScreenState> = _profileScreenState.asStateFlow()
 
     init {
-        me()
+        getProfile()
     }
 
-    private fun me() {
+    private fun getProfile() {
         meUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _meScreenState.update { LoadingScreenState.Success(user = result.data?.user) }
+                    _profileScreenState.update { ProfileScreenState.Success(meResponse = result.data) }
                 }
                 is Resource.Error -> {
-                    _meScreenState.update { LoadingScreenState.Error(message = result.message ?: "An unexpected error occurred") }
+                    _profileScreenState.update { ProfileScreenState.Error(message = result.message ?: "An unexpected error occurred") }
                 }
                 is Resource.Loading -> {
-                    _meScreenState.update { LoadingScreenState.Loading }
+                    _profileScreenState.update { ProfileScreenState.Loading }
                 }
             }
         }.launchIn(viewModelScope)

@@ -1,4 +1,4 @@
-package com.ortalesoft.letsshop.domain.uses_case.loading
+package com.ortalesoft.letsshop.domain.uses_case.profile
 
 import com.ortalesoft.letsshop.data.common.Resource
 import com.ortalesoft.letsshop.domain.model.responses.MeResponse
