@@ -19,7 +19,7 @@ class AuthRepositoryImpl @Inject constructor(
         session.saveUser(
             id = response.user.id ?: "",
             name = response.user.name ?: "",
-            email = response.user.email ?: ""
+            email = response.user.email
         )
         return response
     }
@@ -30,7 +30,7 @@ class AuthRepositoryImpl @Inject constructor(
         session.saveUser(
             id = response.user.id ?: "",
             name = response.user.name ?: "",
-            email = response.user.email ?: ""
+            email = response.user.email
         )
         return response
     }
